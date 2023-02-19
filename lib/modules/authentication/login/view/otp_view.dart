@@ -5,7 +5,7 @@ import 'package:medihelp/components/common_button.dart';
 import 'package:medihelp/components/default_scaffold.dart';
 import 'package:medihelp/components/text_component.dart';
 import 'package:medihelp/components/text_field_component.dart';
-import 'package:medihelp/modules/authentication/login/controller/login_controller.dart';
+import 'package:medihelp/modules/authentication/controller/auth_controller.dart';
 import 'package:medihelp/utils/common_methods.dart';
 import 'package:medihelp/utils/styles.dart';
 
@@ -17,23 +17,32 @@ class OtpView extends StatefulWidget {
 }
 
 class _OtpViewState extends BaseState<OtpView> {
-  final loginController = Get.put(LoginController());
+  final authController = Get.put(AuthController());
 
-  late Rxn<String?> loginOtp;
+  late Rxn<String?> otpValue;
   TextEditingController otpController = TextEditingController();
+  var arguments;
+  late bool isLoginOperation;
 
   @override
   void initState() {
     // TODO: implement initState
-    loginOtp = loginController.loginOtp;
-    loginController.getLoginOtp();
+    arguments = Get.arguments;
+    if (arguments == 'login-screen') {
+      authController.getLoginOtp();
+      isLoginOperation = true;
+    } else if (arguments == 'reg-screen') {
+      authController.getSignupOtp();
+      isLoginOperation = false;
+    }
+    otpValue = authController.otpValue;
     super.initState();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    resetGetXValues([loginOtp]);
+    resetGetXValues([otpValue]);
     otpController.dispose();
     closeSoftKeyBoard();
     super.dispose();
@@ -41,7 +50,7 @@ class _OtpViewState extends BaseState<OtpView> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<LoginController>(builder: (controller) {
+    return GetBuilder<AuthController>(builder: (controller) {
       return DefaultScaffold(
           backgroundColor: kBackgroundColor,
           body: SingleChildScrollView(
@@ -52,11 +61,11 @@ class _OtpViewState extends BaseState<OtpView> {
                 const SizedBox(
                   height: 40,
                 ),
-                const TextComponent(
-                  "Login",
+                TextComponent(
+                  isLoginOperation == true ? "Login" : "Register",
                   fontSize: fontSize22,
                   fontWeight: fontWeight700,
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: horizontalMargin,
                     vertical: float10,
                   ),
@@ -80,7 +89,7 @@ class _OtpViewState extends BaseState<OtpView> {
                     bottom: float10,
                   ),
                   onChanged: (value) {
-                    loginOtp.value = value;
+                    otpValue.value = value;
                   },
                   validator: (value) {
                     if (value != null) {
@@ -93,8 +102,8 @@ class _OtpViewState extends BaseState<OtpView> {
                 ),
                 Obx(
                   () => CommonButton(
-                    btnText: "Login",
-                    isEnabled: !isBlank([loginOtp]),
+                    btnText: isLoginOperation == true ? "Login" : "Register",
+                    isEnabled: !isBlank([otpValue]),
                     isLoading: controller.verifyButtonLoading.value,
                     margin: const EdgeInsets.symmetric(
                       horizontal: horizontalMargin,
@@ -102,7 +111,11 @@ class _OtpViewState extends BaseState<OtpView> {
                     ),
                     onTap: () {
                       closeSoftKeyBoard();
-                      controller.verifyPhoneLogin();
+                      if (isLoginOperation == true) {
+                        controller.verifyPhoneLogin();
+                      } else if (isLoginOperation == false) {
+                        controller.verifyPhoneSignUp();
+                      }
                     },
                   ),
                 )

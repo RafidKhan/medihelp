@@ -33,19 +33,22 @@ class TextComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
-      child: Text(
-        text,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        overflow: textOverflow,
-        style: TextStyle(
-          color: color,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          decoration: textDecoration ?? TextDecoration.none,
-          decorationColor: textDecoration == null
-              ? Colors.transparent
-              : decorationColor ?? Colors.transparent,
+      child: InkWell(
+        onTap: onPressed,
+        child: Text(
+          text,
+          textAlign: textAlign,
+          maxLines: maxLines,
+          overflow: textOverflow,
+          style: TextStyle(
+            color: color,
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+            decoration: textDecoration ?? TextDecoration.none,
+            decorationColor: textDecoration == null
+                ? Colors.transparent
+                : decorationColor ?? Colors.transparent,
+          ),
         ),
       ),
     );

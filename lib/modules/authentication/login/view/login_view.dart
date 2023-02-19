@@ -5,8 +5,9 @@ import 'package:medihelp/components/common_button.dart';
 import 'package:medihelp/components/default_scaffold.dart';
 import 'package:medihelp/components/text_component.dart';
 import 'package:medihelp/components/text_field_component.dart';
-import 'package:medihelp/modules/authentication/login/controller/login_controller.dart';
+import 'package:medihelp/modules/authentication/controller/auth_controller.dart';
 import 'package:medihelp/modules/authentication/login/view/otp_view.dart';
+import 'package:medihelp/modules/authentication/registration/registration_view.dart';
 import 'package:medihelp/utils/common_methods.dart';
 import 'package:medihelp/utils/styles.dart';
 
@@ -18,7 +19,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends BaseState<LoginView> {
-  final loginController = Get.put(LoginController());
+  final authController = Get.put(AuthController());
 
   late Rxn<String?> loginPhoneNumber;
   TextEditingController phoneController = TextEditingController();
@@ -26,7 +27,7 @@ class _LoginViewState extends BaseState<LoginView> {
   @override
   void initState() {
     // TODO: implement initState
-    loginPhoneNumber = loginController.loginPhoneNumber;
+    loginPhoneNumber = authController.loginPhoneNumber;
     super.initState();
   }
 
@@ -41,7 +42,7 @@ class _LoginViewState extends BaseState<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<LoginController>(builder: (controller) {
+    return GetBuilder<AuthController>(builder: (controller) {
       return DefaultScaffold(
           backgroundColor: kBackgroundColor,
           body: SingleChildScrollView(
@@ -93,11 +94,41 @@ class _LoginViewState extends BaseState<LoginView> {
                     ),
                     onTap: () {
                       closeSoftKeyBoard();
-                      Get.to(() => const OtpView(),
-                          transition: defaultPageTransition);
+                      Get.to(
+                        () => const OtpView(),
+                        transition: defaultPageTransition,
+                        arguments: 'login-screen',
+                      );
                     },
                   ),
-                )
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: horizontalMargin,
+                    vertical: float20,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const TextComponent(
+                        "Do not have account? ",
+                        fontSize: fontSize14,
+                        fontWeight: fontWeight400,
+                      ),
+                      TextComponent(
+                        "register",
+                        fontSize: fontSize14,
+                        fontWeight: fontWeight500,
+                        color: kSecondaryColor,
+                        textDecoration: TextDecoration.underline,
+                        onPressed: () {
+                          Get.to(() => const RegistrationView(),
+                              transition: defaultPageTransition);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ));
