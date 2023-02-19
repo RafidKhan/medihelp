@@ -50,6 +50,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 TextFieldComponent(
                   hintText: "Phone Number",
+                  keyboardType: TextInputType.phone,
                   margin: const EdgeInsets.only(
                     left: horizontalMargin,
                     right: horizontalMargin,
