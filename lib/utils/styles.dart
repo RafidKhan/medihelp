@@ -46,3 +46,5 @@ const fontWeight500 = FontWeight.w500;
 
 const double buttonFontSize = fontSize14;
 const FontWeight buttonFontWeight = fontWeight600;
+
+const double appBarHeight = 60.0;
