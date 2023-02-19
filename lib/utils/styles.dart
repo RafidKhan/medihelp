@@ -10,7 +10,7 @@ const kWhiteColor = Color(0xFFFFFFFF);
 const kBlackColor = Color(0xFF000000);
 const kDisabledButtonColor = Color(0x60000000);
 const kFadedTextColor = Color(0xFF5D5F5E);
-
+const kTextFieldBorder = Color(0xffDADADA);
 
 const defaultPageTransition = Transition.fadeIn;
 
@@ -48,3 +48,21 @@ const double buttonFontSize = fontSize14;
 const FontWeight buttonFontWeight = fontWeight600;
 
 const double appBarHeight = 60.0;
+
+const ScrollPhysics bouncingPhysics = BouncingScrollPhysics();
+
+TextStyle textFieldStyle() {
+  return const TextStyle(
+    color: kBlackColor,
+    fontWeight: fontWeight400,
+    fontSize: fontSize18,
+  );
+}
+
+TextStyle hintTextStyle() {
+  return const TextStyle(
+    fontSize: fontSize16,
+    fontWeight: fontWeight400,
+    color: kFadedTextColor,
+  );
+}
