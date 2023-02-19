@@ -6,35 +6,35 @@ import 'package:medihelp/components/default_scaffold.dart';
 import 'package:medihelp/components/text_component.dart';
 import 'package:medihelp/components/text_field_component.dart';
 import 'package:medihelp/modules/authentication/login/controller/login_controller.dart';
-import 'package:medihelp/modules/authentication/login/view/otp_view.dart';
 import 'package:medihelp/utils/common_methods.dart';
 import 'package:medihelp/utils/styles.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class OtpView extends StatefulWidget {
+  const OtpView({Key? key}) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<OtpView> createState() => _OtpViewState();
 }
 
-class _LoginViewState extends BaseState<LoginView> {
+class _OtpViewState extends BaseState<OtpView> {
   final loginController = Get.put(LoginController());
 
-  late Rxn<String?> loginPhoneNumber;
-  TextEditingController phoneController = TextEditingController();
+  late Rxn<String?> loginOtp;
+  TextEditingController otpController = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
-    loginPhoneNumber = loginController.loginPhoneNumber;
+    loginOtp = loginController.loginOtp;
+    loginController.getLoginOtp();
     super.initState();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    resetGetXValues([loginPhoneNumber]);
-    phoneController.dispose();
+    resetGetXValues([loginOtp]);
+    otpController.dispose();
     closeSoftKeyBoard();
     super.dispose();
   }
@@ -62,7 +62,7 @@ class _LoginViewState extends BaseState<LoginView> {
                   ),
                 ),
                 const TextComponent(
-                  "Enter Phone Number",
+                  "Enter OTP",
                   fontSize: fontSize18,
                   fontWeight: fontWeight500,
                   padding: EdgeInsets.symmetric(
@@ -71,8 +71,8 @@ class _LoginViewState extends BaseState<LoginView> {
                   ),
                 ),
                 TextFieldComponent(
-                  controller: phoneController,
-                  hintText: "Phone number",
+                  controller: otpController,
+                  hintText: "otp",
                   keyboardType: TextInputType.phone,
                   margin: const EdgeInsets.only(
                     left: horizontalMargin,
@@ -80,21 +80,29 @@ class _LoginViewState extends BaseState<LoginView> {
                     bottom: float10,
                   ),
                   onChanged: (value) {
-                    loginPhoneNumber.value = value;
+                    loginOtp.value = value;
+                  },
+                  validator: (value) {
+                    if (value != null) {
+                      if (value.length > 6 || value.length < 6) {
+                        return "OTP should be 6 digits long";
+                      }
+                    }
+                    return null;
                   },
                 ),
                 Obx(
                   () => CommonButton(
-                    btnText: "Send OTP",
-                    isEnabled: !isBlank([loginPhoneNumber]),
+                    btnText: "Login",
+                    isEnabled: !isBlank([loginOtp]),
+                    isLoading: controller.verifyButtonLoading.value,
                     margin: const EdgeInsets.symmetric(
                       horizontal: horizontalMargin,
                       vertical: float10,
                     ),
                     onTap: () {
                       closeSoftKeyBoard();
-                      Get.to(() => const OtpView(),
-                          transition: defaultPageTransition);
+                      controller.verifyPhoneLogin();
                     },
                   ),
                 )

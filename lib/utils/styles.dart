@@ -66,3 +66,12 @@ TextStyle hintTextStyle() {
     color: kFadedTextColor,
   );
 }
+
+snackBarWidget(
+    {required String title, required String subTitle, Color? color}) {
+  Get.snackbar(
+    title,
+    subTitle,
+    backgroundColor: color ?? Colors.white,
+  );
+}
