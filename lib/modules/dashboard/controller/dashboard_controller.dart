@@ -44,10 +44,9 @@ class DashboardController extends GetxController {
         for (int i = 0; i < value.docs.length; i++) {
           listMedicines.add(MedicineModel.fromJson(value.docs[i].data()));
         }
-        listMedicines.forEach((element) {
-          log("HERE: ${element.toJson()}");
-        });
+        update();
       });
+      update();
     } catch (e) {
       snackBarWidget(title: "Error Loading Medicines", subTitle: "");
     }
@@ -64,10 +63,9 @@ class DashboardController extends GetxController {
         for (int i = 0; i < value.docs.length; i++) {
           listMedicines.add(MedicineModel.fromJson(value.docs[i].data()));
         }
-        listMedicines.forEach((element) {
-          log("HERE: ${element.toJson()}");
-        });
+        update();
       });
+      update();
     } catch (e) {
       snackBarWidget(title: "Error Loading Medicines", subTitle: "");
     }

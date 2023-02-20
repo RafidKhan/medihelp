@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:medihelp/models/user_model.dart';
 import 'package:medihelp/modules/authentication/login/view/login_view.dart';
 import 'package:medihelp/modules/authentication/profile_setup/view/profile_setup.dart';
+import 'package:medihelp/modules/bottom_nav_page/view/bottom_nav_page.dart';
 import 'package:medihelp/modules/dashboard/view/dashboard_view.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
 import 'package:medihelp/utils/styles.dart';
@@ -95,7 +96,7 @@ class AuthController extends GetxController {
             } else {
               verifyButtonLoading.value = false;
 
-              Get.off(() => const DashboardView(),
+              Get.off(() => const BottomNavScreen(),
                   transition: defaultPageTransition);
             }
           });

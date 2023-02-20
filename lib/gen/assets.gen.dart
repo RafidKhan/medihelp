@@ -12,11 +12,23 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/icon_cart.png
+  AssetGenImage get iconCart =>
+      const AssetGenImage('assets/icons/icon_cart.png');
+
+  /// File path: assets/icons/icon_home.png
+  AssetGenImage get iconHome =>
+      const AssetGenImage('assets/icons/icon_home.png');
+
+  /// File path: assets/icons/icon_setting.png
+  AssetGenImage get iconSetting =>
+      const AssetGenImage('assets/icons/icon_setting.png');
+
   /// File path: assets/icons/user.png
   AssetGenImage get user => const AssetGenImage('assets/icons/user.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [user];
+  List<AssetGenImage> get values => [iconCart, iconHome, iconSetting, user];
 }
 
 class $AssetsImagesGen {

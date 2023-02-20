@@ -4,6 +4,8 @@ class MedicineModel {
   final String? name;
   final String? id;
   final String? category;
+  final String? price;
+  final String? description;
 
   MedicineModel({
     this.image,
@@ -11,6 +13,8 @@ class MedicineModel {
     this.name,
     this.id,
     this.category,
+    this.price,
+    this.description,
   });
 
   MedicineModel.fromJson(Map<String, dynamic> json)
@@ -18,6 +22,8 @@ class MedicineModel {
         categoryId = json['category_id'] ?? "",
         name = json['name'] ?? "",
         id = json['id'] ?? "",
+        price = json['price'] ?? "",
+        description = json['description'] ?? "",
         category = json['category'] ?? "";
 
   Map<String, dynamic> toJson() => {
@@ -25,6 +31,8 @@ class MedicineModel {
         'category_id': categoryId,
         'name': name,
         'id': id,
-        'category': category
+        'category': category,
+        'price': price,
+        'description': description,
       };
 }

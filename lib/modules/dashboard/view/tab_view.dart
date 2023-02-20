@@ -11,9 +11,12 @@ class TabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (controller) {
       return Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: horizontalMargin,
-          vertical: float12,
+        // margin: const EdgeInsets.symmetric(
+        //   vertical: float12,
+        // ),
+        decoration: const BoxDecoration(
+          color: kWhiteColor,
+          boxShadow: [defaultBoxShadow],
         ),
         child: DefaultTabController(
           length: controller.listCategories.length,

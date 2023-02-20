@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:medihelp/components/app_bar_widget.dart';
 import 'package:medihelp/components/default_scaffold.dart';
 import 'package:medihelp/modules/dashboard/controller/dashboard_controller.dart';
+import 'package:medihelp/modules/dashboard/view/medicines_view.dart';
 import 'package:medihelp/modules/dashboard/view/tab_view.dart';
 import 'package:medihelp/utils/styles.dart';
 
@@ -27,6 +28,7 @@ class _DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (controller) {
       return DefaultScaffold(
+        backgroundColor: kBackgroundColor,
         appBar: const AppbarWidget(
           title: "MediHelp",
           hideBackButton: true,
@@ -36,6 +38,8 @@ class _DashboardViewState extends State<DashboardView> {
           child: Column(
             children: const [
               TabView(),
+              MedicinesView()
+
             ],
           ),
         ),

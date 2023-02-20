@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:medihelp/components/default_scaffold.dart';
 import 'package:medihelp/gen/assets.gen.dart';
 import 'package:medihelp/modules/authentication/login/view/login_view.dart';
-import 'package:medihelp/modules/dashboard/view/dashboard_view.dart';
+import 'package:medihelp/modules/bottom_nav_page/view/bottom_nav_page.dart';
 import 'package:medihelp/utils/styles.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
-      Get.off(() => const DashboardView(), transition: defaultPageTransition);
+      Get.off(() => const BottomNavScreen(), transition: defaultPageTransition);
     } else {
       Get.off(() => const LoginView(), transition: defaultPageTransition);
     }
