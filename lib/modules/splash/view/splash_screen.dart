@@ -1,9 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/http.dart';
 import 'package:medihelp/components/default_scaffold.dart';
 import 'package:medihelp/gen/assets.gen.dart';
 import 'package:medihelp/modules/authentication/login/view/login_view.dart';
+import 'package:medihelp/modules/dashboard/view/dashboard_view.dart';
 import 'package:medihelp/utils/styles.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,7 +24,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkUserStatus() async {
     await Future.delayed(const Duration(seconds: 2));
-    Get.off(() => const LoginView(), transition: defaultPageTransition);
+
+    final currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      Get.off(() => const DashboardView(), transition: defaultPageTransition);
+    } else {
+      Get.off(() => const LoginView(), transition: defaultPageTransition);
+    }
   }
 
   @override

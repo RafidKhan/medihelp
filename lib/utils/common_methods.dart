@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
 import 'package:medihelp/utils/styles.dart';
@@ -56,4 +57,14 @@ Future<String> getUserProfileImageUrl({required userId}) async {
     url = "";
   }
   return url;
+}
+
+
+snackBarWidget(
+    {required String title, required String subTitle, Color? color}) {
+  Get.snackbar(
+    title,
+    subTitle,
+    backgroundColor: color ?? Colors.white,
+  );
 }

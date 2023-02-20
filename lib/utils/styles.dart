@@ -67,11 +67,14 @@ TextStyle hintTextStyle() {
   );
 }
 
-snackBarWidget(
-    {required String title, required String subTitle, Color? color}) {
-  Get.snackbar(
-    title,
-    subTitle,
-    backgroundColor: color ?? Colors.white,
-  );
-}
+const BoxShadow defaultBoxShadow = BoxShadow(
+  color: Color(0x12838383),
+  blurRadius: 12.0,
+  spreadRadius: 0.0,
+  offset: Offset(
+    0.0,
+    0.0,
+  ),
+);
+
+

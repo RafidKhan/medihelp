@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:medihelp/models/user_model.dart';
 import 'package:medihelp/modules/authentication/login/view/login_view.dart';
 import 'package:medihelp/modules/authentication/profile_setup/view/profile_setup.dart';
+import 'package:medihelp/modules/dashboard/view/dashboard_view.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
 import 'package:medihelp/utils/styles.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -27,10 +27,8 @@ class AuthController extends GetxController {
   RxBool registerButtonLoading = false.obs;
 
   String verificationIDPhoneSignIn = "";
-  int resend_TokenPhoneSignIn = 0;
 
   String verificationIDPhoneSignUp = "";
-  int resend_TokenPhoneSignUp = 0;
 
   Future<void> getLoginOtp() async {
     final phoneNumber = "+88${loginPhoneNumber.value}";
@@ -43,9 +41,6 @@ class AuthController extends GetxController {
       },
       codeSent: (String verificationId, int? resendToken) {
         verificationIDPhoneSignIn = verificationId;
-        if (resendToken != null) {
-          resend_TokenPhoneSignIn = resendToken;
-        }
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         verificationIDPhoneSignIn = verificationId;
@@ -65,9 +60,6 @@ class AuthController extends GetxController {
       },
       codeSent: (String verificationId, int? resendToken) {
         verificationIDPhoneSignUp = verificationId;
-        if (resendToken != null) {
-          resend_TokenPhoneSignUp = resendToken;
-        }
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         verificationIDPhoneSignUp = verificationId;
@@ -103,8 +95,8 @@ class AuthController extends GetxController {
             } else {
               verifyButtonLoading.value = false;
 
-              // generalLoginMethod(
-              //     userId: "$userId", loginType: LOGIN_TYPE_PHONE);
+              Get.off(() => const DashboardView(),
+                  transition: defaultPageTransition);
             }
           });
         }
@@ -115,7 +107,6 @@ class AuthController extends GetxController {
     } catch (e) {
       verifyButtonLoading.value = false;
       snackBarWidget(title: "Something went wrong", subTitle: "");
-      throw e;
     }
   }
 
@@ -158,7 +149,6 @@ class AuthController extends GetxController {
     } catch (e) {
       verifyButtonLoading.value = false;
       snackBarWidget(title: "Something went wrong", subTitle: "");
-      throw e;
     }
   }
 
@@ -186,7 +176,6 @@ class AuthController extends GetxController {
           .set(userModel.toJson());
       registerButtonLoading.value = false;
 
-      log("USER: ${userModel.toJson()}");
       snackBarWidget(
           title: "Registration successful",
           subTitle: "Please login to continue");
