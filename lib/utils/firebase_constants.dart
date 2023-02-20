@@ -9,6 +9,7 @@ class TableCategory {
 
 class TableMedicines {
   static String collectionName = 'medicines';
+  static String categoryId = 'category_id';
 }
 
 class StoragePath {

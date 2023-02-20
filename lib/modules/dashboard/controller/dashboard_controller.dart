@@ -1,13 +1,16 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:medihelp/models/category_model.dart';
+import 'package:medihelp/models/medicine_model.dart';
 import 'package:medihelp/utils/common_methods.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
 
 class DashboardController extends GetxController {
   List<CategoryModel> listCategories = <CategoryModel>[];
+  List<MedicineModel> listMedicines = <MedicineModel>[];
   int selectedDealTabIndex = 0;
 
   Future<void> fetchCategories() async {
@@ -24,22 +27,50 @@ class DashboardController extends GetxController {
           listCategories.add(CategoryModel.fromJson(value.docs[i].data()));
         }
       });
-      fetchMedicines();
+      fetchAllMedicines();
       update();
     } catch (e) {
       snackBarWidget(title: "Error Loading Categories", subTitle: "");
     }
   }
 
-  Future<void> fetchMedicines() async {
-    await FirebaseFirestore.instance
-        .collection(TableMedicines.collectionName)
-        .get()
-        .then((value) {
-      for (int i = 0; i < value.docs.length; i++) {
-        print("HERE: ${jsonEncode(value.docs[i].data())}");
-      }
-    });
+  Future<void> fetchAllMedicines() async {
+    listMedicines = [];
+    try {
+      await FirebaseFirestore.instance
+          .collection(TableMedicines.collectionName)
+          .get()
+          .then((value) {
+        for (int i = 0; i < value.docs.length; i++) {
+          listMedicines.add(MedicineModel.fromJson(value.docs[i].data()));
+        }
+        listMedicines.forEach((element) {
+          log("HERE: ${element.toJson()}");
+        });
+      });
+    } catch (e) {
+      snackBarWidget(title: "Error Loading Medicines", subTitle: "");
+    }
+  }
+
+  Future<void> fetchCategoryMedicines({required String categoryID}) async {
+    listMedicines = [];
+    try {
+      await FirebaseFirestore.instance
+          .collection(TableMedicines.collectionName)
+          .where(TableMedicines.categoryId, isEqualTo: categoryID)
+          .get()
+          .then((value) {
+        for (int i = 0; i < value.docs.length; i++) {
+          listMedicines.add(MedicineModel.fromJson(value.docs[i].data()));
+        }
+        listMedicines.forEach((element) {
+          log("HERE: ${element.toJson()}");
+        });
+      });
+    } catch (e) {
+      snackBarWidget(title: "Error Loading Medicines", subTitle: "");
+    }
   }
 
   selectDealTabIndex({required int index}) {

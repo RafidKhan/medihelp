@@ -21,6 +21,12 @@ class TabView extends StatelessWidget {
           child: TabBar(
             onTap: (index) {
               controller.selectDealTabIndex(index: index);
+              if (index == 0) {
+                controller.fetchAllMedicines();
+              } else {
+                controller.fetchCategoryMedicines(
+                    categoryID: controller.listCategories[index].id ?? "");
+              }
             },
             isScrollable: true,
             indicatorColor: kPrimaryColor,
