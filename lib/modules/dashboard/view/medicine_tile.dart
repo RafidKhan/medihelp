@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:medihelp/components/adatptive_button.dart';
 import 'package:medihelp/components/loader_widget.dart';
 import 'package:medihelp/components/text_component.dart';
 import 'package:medihelp/gen/assets.gen.dart';
