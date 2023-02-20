@@ -82,7 +82,7 @@ class AuthController extends GetxController {
           var userId = value.user?.uid;
 
           await FirebaseFirestore.instance
-              .collection(TableUsers.TABLE_USERS)
+              .collection(TableUsers.collectionName)
               .doc(userId)
               .get()
               .then((value) {
@@ -124,7 +124,7 @@ class AuthController extends GetxController {
           var userId = value.user?.uid;
 
           await FirebaseFirestore.instance
-              .collection(TableUsers.TABLE_USERS)
+              .collection(TableUsers.collectionName)
               .doc(userId)
               .get()
               .then((value) {
@@ -171,7 +171,7 @@ class AuthController extends GetxController {
           .putFile(imageFileProfile);
       userModel.profilePicture = await getUserProfileImageUrl(userId: userId);
       await FirebaseFirestore.instance
-          .collection(TableUsers.TABLE_USERS)
+          .collection(TableUsers.collectionName)
           .doc(userId)
           .set(userModel.toJson());
       registerButtonLoading.value = false;

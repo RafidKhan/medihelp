@@ -1,10 +1,14 @@
 class TableUsers {
-  static String TABLE_USERS = 'users';
+  static String collectionName = 'users';
   static String TABLE_USERS_ID = 'userId';
 }
 
 class TableCategory {
-  static String TABLE_CATEGORY = 'categories';
+  static String collectionName = 'categories';
+}
+
+class TableMedicines {
+  static String collectionName = 'medicines';
 }
 
 class StoragePath {

@@ -1,6 +1,6 @@
 class CategoryModel {
-  final String? name;
-  final String? id;
+  String? name;
+  String? id;
 
   CategoryModel({
     this.name,

@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medihelp/components/app_bar_widget.dart';
 import 'package:medihelp/components/default_scaffold.dart';
-import 'package:medihelp/modules/splash/view/splash_screen.dart';
+import 'package:medihelp/modules/dashboard/controller/dashboard_controller.dart';
+import 'package:medihelp/modules/dashboard/view/tab_view.dart';
 import 'package:medihelp/utils/styles.dart';
 
 class DashboardView extends StatefulWidget {
@@ -15,19 +14,32 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  final dashboardController = Get.put(DashboardController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    dashboardController.fetchCategories();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultScaffold(
-      appBar: const AppbarWidget(
-        title: "MediHelp",
-        hideBackButton: true,
-      ),
-      body: SingleChildScrollView(
-        physics: bouncingPhysics,
-        child: Column(
-          children: [],
+    return GetBuilder<DashboardController>(builder: (controller) {
+      return DefaultScaffold(
+        appBar: const AppbarWidget(
+          title: "MediHelp",
+          hideBackButton: true,
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          physics: bouncingPhysics,
+          child: Column(
+            children: const [
+              TabView(),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }
