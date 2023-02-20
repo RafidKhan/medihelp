@@ -6,6 +6,8 @@ class MedicineModel {
   final String? category;
   final String? price;
   final String? description;
+  bool? isAddedToCart;
+  int? cartAmount;
 
   MedicineModel({
     this.image,
@@ -15,6 +17,8 @@ class MedicineModel {
     this.category,
     this.price,
     this.description,
+    this.isAddedToCart = false,
+    this.cartAmount = 0,
   });
 
   MedicineModel.fromJson(Map<String, dynamic> json)
@@ -24,6 +28,8 @@ class MedicineModel {
         id = json['id'] ?? "",
         price = json['price'] ?? "",
         description = json['description'] ?? "",
+        isAddedToCart = json['isAddedToCart'] ?? false,
+        cartAmount = json['cartAmount'] ?? 0,
         category = json['category'] ?? "";
 
   Map<String, dynamic> toJson() => {

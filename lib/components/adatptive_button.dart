@@ -13,6 +13,7 @@ class AdaptiveButton extends StatelessWidget {
   final Color? borderColor;
   final Widget? prefixWidget;
   final EdgeInsets? margin;
+  final double? fontSize;
 
   AdaptiveButton({
     Key? key,
@@ -25,6 +26,7 @@ class AdaptiveButton extends StatelessWidget {
     this.borderColor,
     this.prefixWidget,
     this.margin,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,7 @@ class AdaptiveButton extends StatelessWidget {
                     btnText,
                     padding: EdgeInsets.zero,
                     color: textColor,
-                    fontSize: buttonFontSize,
+                    fontSize: fontSize ?? buttonFontSize,
                     fontWeight: buttonFontWeight,
                   ),
                 ],

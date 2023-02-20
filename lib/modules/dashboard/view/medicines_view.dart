@@ -31,7 +31,8 @@ class MedicinesView extends StatelessWidget {
               final medicineModel = controller.listMedicines[index];
               return MedicineTile(
                 medicineModel: medicineModel,
-                onTap: (){
+                height: itemHeight,
+                onTap: () {
                   log("HERE: ${medicineModel.toJson()}");
                 },
               );

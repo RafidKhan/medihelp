@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:medihelp/components/adatptive_button.dart';
 import 'package:medihelp/components/loader_widget.dart';
 import 'package:medihelp/components/text_component.dart';
 import 'package:medihelp/gen/assets.gen.dart';
@@ -9,11 +10,13 @@ import 'package:medihelp/utils/styles.dart';
 class MedicineTile extends StatelessWidget {
   MedicineModel medicineModel;
   VoidCallback onTap;
+  double height;
 
   MedicineTile({
     Key? key,
     required this.medicineModel,
     required this.onTap,
+    required this.height,
   }) : super(key: key);
 
   @override
@@ -47,11 +50,11 @@ class MedicineTile extends StatelessWidget {
                 errorWidget: (context, url, error) {
                   return Image.asset(
                     Assets.logo.appLogo.path,
-                    height: 90,
+                    height: height / 2,
                   );
                 },
                 imageUrl: medicineModel.image ?? "",
-                height: 100,
+                height: height / 2,
                 width: MediaQuery.of(context).size.width / 3,
                 fit: BoxFit.fill,
               ),
@@ -61,19 +64,30 @@ class MedicineTile extends StatelessWidget {
               fontSize: fontSize14,
               fontWeight: fontWeight500,
               textAlign: TextAlign.start,
-              padding: const EdgeInsets.symmetric(
-                vertical: float5,
-              ),
             ),
             TextComponent(
               "${(medicineModel.price ?? "")} BDT",
               fontSize: fontSize12,
               fontWeight: fontWeight400,
               textAlign: TextAlign.start,
-              padding: const EdgeInsets.symmetric(
-                vertical: float5,
+              padding: const EdgeInsets.only(
+                top: float5,
               ),
             ),
+            medicineModel.isAddedToCart == false
+                ? const Align(
+                    alignment: Alignment.center,
+                    child: TextComponent(
+                      "add to cart",
+                      fontSize: fontSize12,
+                      fontWeight: fontWeight400,
+                      textAlign: TextAlign.center,
+                      padding: EdgeInsets.only(
+                        top: float5,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
