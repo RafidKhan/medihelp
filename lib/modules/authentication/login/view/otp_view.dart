@@ -102,7 +102,7 @@ class _OtpViewState extends BaseState<OtpView> {
                 ),
                 Obx(
                   () => CommonButton(
-                    btnText: isLoginOperation == true ? "Login" : "Register",
+                    btnText: isLoginOperation == true ? "Login" : "Continue",
                     isEnabled: !isBlank([otpValue]),
                     isLoading: controller.verifyButtonLoading.value,
                     margin: const EdgeInsets.symmetric(

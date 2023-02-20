@@ -1,8 +1,16 @@
+import 'dart:developer';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:medihelp/models/user_model.dart';
+import 'package:medihelp/modules/authentication/login/view/login_view.dart';
+import 'package:medihelp/modules/authentication/profile_setup/view/profile_setup.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
 import 'package:medihelp/utils/styles.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
+import '../../../utils/common_methods.dart';
 
 class AuthController extends GetxController {
   final loginPhoneNumber = Rxn<String?>();
@@ -11,7 +19,12 @@ class AuthController extends GetxController {
   final regPhoneNumber = Rxn<String?>();
   final regOtp = Rxn<String?>();
 
+  final profileSetupName = Rxn<String?>();
+  final profileSetupEmail = Rxn<String?>();
+  final profileSetupImageFilePath = Rxn<String?>();
+
   RxBool verifyButtonLoading = false.obs;
+  RxBool registerButtonLoading = false.obs;
 
   String verificationIDPhoneSignIn = "";
   int resend_TokenPhoneSignIn = 0;
@@ -78,10 +91,10 @@ class AuthController extends GetxController {
 
           await FirebaseFirestore.instance
               .collection(TableUsers.TABLE_USERS)
-              .where(TableUsers.TABLE_USERS_ID, isEqualTo: userId)
+              .doc(userId)
               .get()
               .then((value) {
-            if (value.docs.isEmpty) {
+            if (value.data() == null) {
               verifyButtonLoading.value = false;
               snackBarWidget(
                   title: "Registration Required",
@@ -89,6 +102,7 @@ class AuthController extends GetxController {
                       "You must register first, before you could use your phone number for sign in");
             } else {
               verifyButtonLoading.value = false;
+
               // generalLoginMethod(
               //     userId: "$userId", loginType: LOGIN_TYPE_PHONE);
             }
@@ -120,12 +134,15 @@ class AuthController extends GetxController {
 
           await FirebaseFirestore.instance
               .collection(TableUsers.TABLE_USERS)
-              .where(TableUsers.TABLE_USERS_ID, isEqualTo: userId)
+              .doc(userId)
               .get()
               .then((value) {
-            if (value.docs.isEmpty) {
+            if (value.data() == null) {
               verifyButtonLoading.value = false;
-              snackBarWidget(title: "Registration Successful", subTitle: "");
+              Get.to(
+                () => const ProfileSetupView(),
+                transition: defaultPageTransition,
+              );
             } else {
               verifyButtonLoading.value = false;
               snackBarWidget(
@@ -142,6 +159,44 @@ class AuthController extends GetxController {
       verifyButtonLoading.value = false;
       snackBarWidget(title: "Something went wrong", subTitle: "");
       throw e;
+    }
+  }
+
+  Future<void> performSignUp() async {
+    registerButtonLoading.value = true;
+    try {
+      UserModel userModel = UserModel();
+
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      userModel.userId = userId;
+      userModel.name = profileSetupName.value;
+      userModel.email = profileSetupEmail.value;
+      userModel.phoneNumber = regPhoneNumber.value;
+
+      File imageFileProfile = File(profileSetupImageFilePath.value!);
+
+      await FirebaseStorage.instance
+          .ref()
+          .child("${StoragePath.USER_PROFILE_IMAGE_PATH}${userId}.jpg")
+          .putFile(imageFileProfile);
+      userModel.profilePicture = await getUserProfileImageUrl(userId: userId);
+      await FirebaseFirestore.instance
+          .collection(TableUsers.TABLE_USERS)
+          .doc(userId)
+          .set(userModel.toJson());
+      registerButtonLoading.value = false;
+
+      log("USER: ${userModel.toJson()}");
+      snackBarWidget(
+          title: "Registration successful",
+          subTitle: "Please login to continue");
+      Get.off(
+        () => const LoginView(),
+        transition: defaultPageTransition,
+      );
+    } catch (e) {
+      registerButtonLoading.value = false;
+      snackBarWidget(title: "Something went wrong", subTitle: "");
     }
   }
 }

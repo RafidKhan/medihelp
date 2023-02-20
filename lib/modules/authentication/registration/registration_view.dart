@@ -31,6 +31,15 @@ class _RegistrationViewState extends BaseState<RegistrationView> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    resetGetXValues([regPhoneNumber]);
+    phoneController.dispose();
+    closeSoftKeyBoard();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
         backgroundColor: kBackgroundColor,
