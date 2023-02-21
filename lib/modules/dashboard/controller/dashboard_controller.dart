@@ -8,6 +8,7 @@ import 'package:medihelp/utils/firebase_constants.dart';
 class DashboardController extends GetxController {
   List<CategoryModel> listCategories = <CategoryModel>[];
   List<MedicineModel> listMedicines = <MedicineModel>[];
+  List<String> prices = <String>[];
   int selectedDealTabIndex = 0;
 
   bool loadingMedicines = false;
