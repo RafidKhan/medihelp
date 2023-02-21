@@ -2,6 +2,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:medihelp/components/loader_widget.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -75,4 +76,16 @@ int multiplyStrings(List<String> strings) {
   }
 
   return result;
+}
+
+
+showLoaderAlert(){
+  Get.dialog(AlertDialog(
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        LoaderWidget(),
+      ],
+    ),
+  ));
 }
