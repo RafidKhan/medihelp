@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medihelp/components/loader_widget.dart';
+import 'package:medihelp/modules/authentication/login/view/login_view.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
+import 'package:medihelp/utils/shared_preference.dart';
+import 'package:medihelp/utils/styles.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void closeSoftKeyBoard() {
@@ -117,4 +121,15 @@ showLoaderAlert() {
       ],
     ),
   ));
+}
+
+logoutUser() async {
+  showLoaderAlert();
+  await FirebaseAuth.instance.signOut();
+  await SharedPref.removeAll();
+  Get.back();
+  Get.off(
+    () => const LoginView(),
+    transition: defaultPageTransition,
+  );
 }

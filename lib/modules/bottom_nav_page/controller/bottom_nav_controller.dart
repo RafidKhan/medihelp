@@ -10,6 +10,5 @@ class BottomNavController extends GetxController {
     const DashboardView(),
     const CartView(),
     const ProfileView(),
-    const SizedBox(),
   ];
 }

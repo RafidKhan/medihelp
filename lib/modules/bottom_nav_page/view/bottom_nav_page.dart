@@ -28,7 +28,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               bottomNavItem(asset: Assets.icons.iconHome.path),
               bottomNavItem(asset: Assets.icons.iconCart.path),
               bottomNavItem(asset: Assets.icons.user.path),
-              bottomNavItem(asset: Assets.icons.iconSetting.path),
             ],
             backgroundColor: kPrimaryColor,
             showUnselectedLabels: false,

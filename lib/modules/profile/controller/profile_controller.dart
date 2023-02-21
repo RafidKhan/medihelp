@@ -14,7 +14,6 @@ import '../../../utils/shared_preference_keys.dart';
 
 class ProfileController extends GetxController {
   UserModel? myProfileData;
-  bool isEditProfileVisible = false;
   bool loadingLocation = true;
 
   TextEditingController nameController = TextEditingController();
@@ -31,13 +30,6 @@ class ProfileController extends GetxController {
           .then((value) {
         if (value.data() != null) {
           myProfileData = UserModel.fromJson(value.data()!);
-          final String myAddress = myProfileData?.address ?? "";
-          if (myAddress.isEmpty) {
-            getCurrentPosition(context);
-          } else {
-            addressController.text = myAddress;
-            loadingLocation = false;
-          }
         }
       });
     }
@@ -45,8 +37,14 @@ class ProfileController extends GetxController {
     update();
   }
 
-  toggleEditProfileVisibility() {
-    isEditProfileVisible = !isEditProfileVisible;
+  setLocationText(context) {
+    final String myAddress = myProfileData?.address ?? "";
+    if (myAddress.isEmpty) {
+      getCurrentPosition(context);
+    } else {
+      addressController.text = myAddress;
+      loadingLocation = false;
+    }
     update();
   }
 

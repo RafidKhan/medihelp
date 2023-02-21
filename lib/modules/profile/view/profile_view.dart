@@ -6,6 +6,7 @@ import 'package:medihelp/components/loader_widget.dart';
 import 'package:medihelp/modules/profile/controller/profile_controller.dart';
 import 'package:medihelp/modules/profile/view/edit_profile.dart';
 import 'package:medihelp/modules/profile/view/profile_info.dart';
+import 'package:medihelp/utils/common_methods.dart';
 import 'package:medihelp/utils/styles.dart';
 
 class ProfileView extends StatefulWidget {
@@ -29,14 +30,27 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(builder: (controller) {
       return DefaultScaffold(
-          appBar: const AppbarWidget(
+          appBar: AppbarWidget(
             title: 'Profile',
             hideBackButton: true,
+            prefixWidget: Container(
+              margin: const EdgeInsets.only(
+                right: horizontalMargin,
+              ),
+              child: InkWell(
+                  onTap: () {
+                    logoutUser();
+                  },
+                  child: const Icon(Icons.logout)),
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             backgroundColor: kSecondaryColor,
             onPressed: () {
-              controller.toggleEditProfileVisibility();
+              Get.to(
+                    () => const EditProfile(),
+                transition: defaultPageTransition,
+              );
             },
             child: const Icon(Icons.edit),
           ),
@@ -48,7 +62,6 @@ class _ProfileViewState extends State<ProfileView> {
                   child: Column(
                     children: const [
                       ProfileInfo(),
-                      EditProfile(),
                     ],
                   ),
                 ));
