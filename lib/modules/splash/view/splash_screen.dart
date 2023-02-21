@@ -5,6 +5,8 @@ import 'package:medihelp/components/default_scaffold.dart';
 import 'package:medihelp/gen/assets.gen.dart';
 import 'package:medihelp/modules/authentication/login/view/login_view.dart';
 import 'package:medihelp/modules/bottom_nav_page/view/bottom_nav_page.dart';
+import 'package:medihelp/utils/shared_preference.dart';
+import 'package:medihelp/utils/shared_preference_keys.dart';
 import 'package:medihelp/utils/styles.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,9 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> checkUserStatus() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    final currentUser = FirebaseAuth.instance.currentUser;
-
-    if (currentUser != null) {
+    final isLoggedIn = await SharedPref.read(prefKeyLoginStatus);
+    print("CHECK DATA: ${isLoggedIn}");
+    if (isLoggedIn != null) {
       Get.off(() => const BottomNavScreen(), transition: defaultPageTransition);
     } else {
       Get.off(() => const LoginView(), transition: defaultPageTransition);

@@ -2,18 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:medihelp/models/category_model.dart';
 import 'package:medihelp/models/medicine_model.dart';
+import 'package:medihelp/modules/bottom_nav_page/controller/bottom_nav_controller.dart';
 import 'package:medihelp/modules/cart/controller/cart_controller.dart';
 import 'package:medihelp/utils/common_methods.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
 
 class DashboardController extends GetxController {
+  final bottomNavController = Get.put(BottomNavController());
   final cartController = Get.put(CartController());
   List<CategoryModel> listCategories = <CategoryModel>[];
   List<MedicineModel> listMedicines = <MedicineModel>[];
   List<String> prices = <String>[];
   int selectedDealTabIndex = 0;
 
-  bool loadingMedicines = false;
+  bool loadingMedicines = true;
 
   Future<void> fetchCategories() async {
     listCategories = [];

@@ -6,8 +6,9 @@ import 'package:medihelp/models/user_model.dart';
 import 'package:medihelp/modules/authentication/login/view/login_view.dart';
 import 'package:medihelp/modules/authentication/profile_setup/view/profile_setup.dart';
 import 'package:medihelp/modules/bottom_nav_page/view/bottom_nav_page.dart';
-import 'package:medihelp/modules/dashboard/view/dashboard_view.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
+import 'package:medihelp/utils/shared_preference.dart';
+import 'package:medihelp/utils/shared_preference_keys.dart';
 import 'package:medihelp/utils/styles.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -86,7 +87,7 @@ class AuthController extends GetxController {
               .collection(TableUsers.collectionName)
               .doc(userId)
               .get()
-              .then((value) {
+              .then((value) async {
             if (value.data() == null) {
               verifyButtonLoading.value = false;
               snackBarWidget(
@@ -94,8 +95,9 @@ class AuthController extends GetxController {
                   subTitle:
                       "You must register first, before you could use your phone number for sign in");
             } else {
+              await SharedPref.write(prefKeyLoginStatus, "true");
+              await SharedPref.write(prefKeyUserId, userId);
               verifyButtonLoading.value = false;
-
               Get.off(() => const BottomNavScreen(),
                   transition: defaultPageTransition);
             }
