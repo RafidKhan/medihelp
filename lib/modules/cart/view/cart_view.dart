@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medihelp/components/adatptive_button.dart';
 import 'package:medihelp/components/text_component.dart';
 import 'package:medihelp/gen/assets.gen.dart';
 import 'package:medihelp/components/app_bar_widget.dart';
@@ -38,43 +39,62 @@ class _CartViewState extends State<CartView> {
           ),
         ),
         body: ListView.builder(
+          physics: bouncingPhysics,
           itemCount: controller.listMedicines.length,
           itemBuilder: (context, index) {
             final medicineModel = controller.listMedicines[index];
             final int cartAmount = medicineModel.cartAmount ?? 0;
             final bool isAddedToCart = medicineModel.isAddedToCart ?? false;
             if (isAddedToCart && cartAmount > 0) {
-              return CartTile(medicineModel: medicineModel);
+              return CartTile(
+                medicineModel: medicineModel,
+                removePermanent: () {
+                  controller.permanentRemoveFromCart(
+                      medicineModel: medicineModel);
+                },
+              );
             }
             return const SizedBox();
           },
         ),
-        bottomNavigationBar: Container(
-          height: 50,
-          padding: EdgeInsets.symmetric(
-            horizontal: horizontalMargin,
-          ),
-          width: MediaQuery.of(context).size.width,
-          color: Colors.amber,
-          child: Row(
-            children: [
-              TextComponent(
-                "Total: ",
-                fontSize: fontSize16,
-                fontWeight: fontWeight500,
-                textAlign: TextAlign.start,
+        bottomNavigationBar: controller.calculateTotal() == 0
+            ? null
+            : Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: horizontalMargin, vertical: float12),
+                width: MediaQuery.of(context).size.width,
+                color: kSecondaryColor,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        const TextComponent(
+                          "Total: ",
+                          fontSize: fontSize16,
+                          fontWeight: fontWeight500,
+                          textAlign: TextAlign.start,
+                        ),
+                        const Spacer(),
+                        TextComponent(
+                          "${controller.calculateTotal()}",
+                          fontSize: fontSize16,
+                          fontWeight: fontWeight500,
+                          textAlign: TextAlign.start,
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: AdaptiveButton(
+                            btnText: "Confirm Order", onTap: () {})),
+                  ],
+                ),
               ),
-              const Spacer(),
-              TextComponent(
-                "Arial Hebrew",
-                fontSize: fontSize16,
-                fontWeight: fontWeight500,
-                textAlign: TextAlign.start,
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
       );
     });
   }

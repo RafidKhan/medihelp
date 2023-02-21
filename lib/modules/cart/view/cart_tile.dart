@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medihelp/components/adatptive_button.dart';
 import 'package:medihelp/components/text_component.dart';
 import 'package:medihelp/models/medicine_model.dart';
 import 'package:medihelp/utils/common_methods.dart';
@@ -6,10 +7,12 @@ import 'package:medihelp/utils/styles.dart';
 
 class CartTile extends StatelessWidget {
   MedicineModel medicineModel;
+  VoidCallback removePermanent;
 
   CartTile({
     Key? key,
     required this.medicineModel,
+    required this.removePermanent,
   }) : super(key: key);
 
   @override
@@ -48,6 +51,12 @@ class CartTile extends StatelessWidget {
                   medicineModel.cartAmount.toString(),
                 ])}",
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          Align(
+              alignment: Alignment.centerRight,
+              child: AdaptiveButton(btnText: "Remove", onTap: removePermanent))
         ],
       ),
     );

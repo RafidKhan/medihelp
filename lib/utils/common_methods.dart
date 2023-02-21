@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
-import 'package:medihelp/utils/styles.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void closeSoftKeyBoard() {

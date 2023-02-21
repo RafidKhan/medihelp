@@ -102,4 +102,27 @@ class DashboardController extends GetxController {
 
     update();
   }
+
+  permanentRemoveFromCart({required MedicineModel medicineModel}) {
+    medicineModel.cartAmount = 0;
+    medicineModel.isAddedToCart = false;
+    update();
+  }
+
+  int calculateTotal() {
+    int total = 0;
+    for (int index = 0; index < listMedicines.length; index++) {
+      final medicineModel = listMedicines[index];
+      final int cartAmount = medicineModel.cartAmount ?? 0;
+      final bool isAddedToCart = medicineModel.isAddedToCart ?? false;
+      if (isAddedToCart && cartAmount > 0) {
+        final priceAmount = multiplyStrings([
+          medicineModel.price.toString(),
+          medicineModel.cartAmount.toString(),
+        ]);
+        total = total + priceAmount;
+      }
+    }
+    return total;
+  }
 }
