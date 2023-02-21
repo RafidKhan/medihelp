@@ -21,7 +21,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     // TODO: implement initState
-    profileController.getProfileData();
+    profileController.getProfileData(context);
     super.initState();
   }
 
@@ -40,7 +40,8 @@ class _ProfileViewState extends State<ProfileView> {
             },
             child: const Icon(Icons.edit),
           ),
-          body: controller.myProfileData == null
+          body: controller.myProfileData == null &&
+                  controller.loadingLocation == true
               ? LoaderWidget()
               : SingleChildScrollView(
                   physics: bouncingPhysics,

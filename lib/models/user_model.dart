@@ -5,6 +5,8 @@ class UserModel {
   String? phoneNumber;
   String? profilePicture;
   String? address;
+  String? latitude;
+  String? longitude;
   bool? isVerified;
 
   UserModel({
@@ -14,6 +16,8 @@ class UserModel {
     this.phoneNumber,
     this.profilePicture,
     this.address,
+    this.latitude,
+    this.longitude,
     this.isVerified = false,
   });
 
@@ -24,6 +28,8 @@ class UserModel {
         phoneNumber: json["phoneNumber"],
         profilePicture: json["profilePicture"],
         address: json["address"],
+        latitude: json["latitude"],
+        longitude: json["longitude"],
         isVerified: json["isVerified"] ?? false,
       );
 
@@ -35,5 +41,7 @@ class UserModel {
         "profilePicture": profilePicture,
         "isVerified": isVerified,
         "address": address,
+        "latitude": latitude,
+        "longitude": longitude,
       };
 }

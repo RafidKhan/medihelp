@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medihelp/components/common_button.dart';
-import 'package:medihelp/components/loader_widget.dart';
 import 'package:medihelp/components/text_field_component.dart';
 import 'package:medihelp/modules/profile/controller/profile_controller.dart';
+import 'package:medihelp/utils/common_methods.dart';
 import 'package:medihelp/utils/styles.dart';
 
 class EditProfile extends StatefulWidget {
@@ -15,25 +15,23 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final profileController = Get.put(ProfileController());
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
-    nameController.text = profileController.myProfileData!.name ?? "";
-    phoneController.text = profileController.myProfileData!.phoneNumber ?? "";
-    addressController.text = profileController.myProfileData!.address ?? "";
+    profileController.nameController.text =
+        profileController.myProfileData!.name ?? "";
+    profileController.phoneController.text =
+        profileController.myProfileData!.phoneNumber ?? "";
     super.initState();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    nameController.dispose();
-    phoneController.dispose();
-    addressController.dispose();
+    profileController.nameController.dispose();
+    profileController.phoneController.dispose();
+    profileController.addressController.dispose();
     super.dispose();
   }
 
@@ -45,7 +43,7 @@ class _EditProfileState extends State<EditProfile> {
           child: Column(
             children: [
               TextFieldComponent(
-                controller: nameController,
+                controller: profileController.nameController,
                 hintText: "Name",
                 margin: const EdgeInsets.symmetric(
                   vertical: float10,
@@ -53,7 +51,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               TextFieldComponent(
-                controller: phoneController,
+                controller: profileController.phoneController,
                 hintText: "Phone number",
                 margin: const EdgeInsets.symmetric(
                   vertical: float10,
@@ -61,13 +59,14 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               TextFieldComponent(
-                controller: addressController,
+                controller: profileController.addressController,
                 hintText: "Address",
                 enabled: false,
                 margin: const EdgeInsets.symmetric(
                   vertical: float10,
                   horizontal: horizontalMargin,
                 ),
+                onTap: () async {},
               ),
               CommonButton(
                 btnText: "Update",
@@ -77,9 +76,9 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 onTap: () async {
                   controller.updateProfile(
-                    name: nameController.text.trim(),
-                    phone: phoneController.text.trim(),
-                    address: addressController.text.trim(),
+                    name: profileController.nameController.text.trim(),
+                    phone: profileController.phoneController.text.trim(),
+                    address: profileController.addressController.text.trim(),
                   );
                 },
               )
