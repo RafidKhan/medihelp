@@ -5,6 +5,7 @@ import 'package:medihelp/components/text_component.dart';
 import 'package:medihelp/gen/assets.gen.dart';
 import 'package:medihelp/components/app_bar_widget.dart';
 import 'package:medihelp/components/default_scaffold.dart';
+import 'package:medihelp/modules/cart/controller/cart_controller.dart';
 import 'package:medihelp/modules/cart/view/cart_tile.dart';
 import 'package:medihelp/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:medihelp/utils/styles.dart';
@@ -17,11 +18,11 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
-  final dashboardController = Get.put(DashboardController());
+  final cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DashboardController>(builder: (controller) {
+    return GetBuilder<CartController>(builder: (controller) {
       return DefaultScaffold(
         appBar: AppbarWidget(
           title: "Cart",
@@ -40,21 +41,15 @@ class _CartViewState extends State<CartView> {
         ),
         body: ListView.builder(
           physics: bouncingPhysics,
-          itemCount: controller.listMedicines.length,
+          itemCount: controller.listCartMedicines.length,
           itemBuilder: (context, index) {
-            final medicineModel = controller.listMedicines[index];
-            final int cartAmount = medicineModel.cartAmount ?? 0;
-            final bool isAddedToCart = medicineModel.isAddedToCart ?? false;
-            if (isAddedToCart && cartAmount > 0) {
-              return CartTile(
-                medicineModel: medicineModel,
-                removePermanent: () {
-                  controller.permanentRemoveFromCart(
-                      medicineModel: medicineModel);
-                },
-              );
-            }
-            return const SizedBox();
+            final cartModel = controller.listCartMedicines[index];
+            return CartTile(
+              cartModel: cartModel,
+              removePermanent: () {
+                controller.removeFromCart(cartModel: cartModel);
+              },
+            );
           },
         ),
         bottomNavigationBar: controller.calculateTotal() == 0

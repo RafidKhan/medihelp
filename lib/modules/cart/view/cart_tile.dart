@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:medihelp/components/adatptive_button.dart';
 import 'package:medihelp/components/text_component.dart';
-import 'package:medihelp/models/medicine_model.dart';
+import 'package:medihelp/models/cart_model.dart';
 import 'package:medihelp/utils/common_methods.dart';
 import 'package:medihelp/utils/styles.dart';
 
 class CartTile extends StatelessWidget {
-  MedicineModel medicineModel;
+  CartModel cartModel;
   VoidCallback removePermanent;
 
   CartTile({
     Key? key,
-    required this.medicineModel,
+    required this.cartModel,
     required this.removePermanent,
   }) : super(key: key);
 
@@ -31,14 +31,14 @@ class CartTile extends StatelessWidget {
         children: [
           rowWidget(
             title: "Name",
-            result: medicineModel.name ?? "",
+            result: cartModel.name,
           ),
           const SizedBox(
             height: 10,
           ),
           rowWidget(
             title: "Quantity",
-            result: (medicineModel.cartAmount ?? 0).toString(),
+            result: "${cartModel.quantity}",
           ),
           const SizedBox(
             height: 10,
@@ -46,9 +46,9 @@ class CartTile extends StatelessWidget {
           rowWidget(
             title: "Price",
             result:
-                "${medicineModel.price}*${medicineModel.cartAmount} : ${multiplyStrings([
-                  medicineModel.price.toString(),
-                  medicineModel.cartAmount.toString(),
+                "${cartModel.price}*${cartModel.quantity} : ${multiplyStrings([
+                  cartModel.price.toString(),
+                  cartModel.quantity.toString(),
                 ])}",
           ),
           const SizedBox(

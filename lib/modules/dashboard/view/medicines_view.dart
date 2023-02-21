@@ -1,8 +1,10 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medihelp/components/loader_widget.dart';
 import 'package:medihelp/components/text_component.dart';
+import 'package:medihelp/models/cart_model.dart';
 import 'package:medihelp/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:medihelp/modules/dashboard/view/medicine_tile.dart';
 import 'package:medihelp/utils/styles.dart';
@@ -40,12 +42,38 @@ class MedicinesView extends StatelessWidget {
                         height: itemHeight,
                         onTap: () {},
                         addToCart: () {
-                          controller.addRemoveToCart(
-                              isAdd: true, medicineModel: medicineModel);
+                          final CartModel? cartModel = controller.cartController
+                              .existsInCart(id: medicineModel.id ?? "");
+                          int quantity = 1;
+                          if (cartModel != null) {
+                            quantity = cartModel.quantity + 1;
+                          }
+                          final CartModel finalCartModel = CartModel(
+                            name: medicineModel.name ?? "",
+                            id: medicineModel.id ?? "",
+                            price: medicineModel.price ?? "",
+                            quantity: quantity,
+                          );
+                          controller.cartController.addToCart(
+                            cartModel: finalCartModel,
+                          );
                         },
                         removeFromCart: () {
-                          controller.addRemoveToCart(
-                              isAdd: false, medicineModel: medicineModel);
+                          final CartModel? cartModel = controller.cartController
+                              .existsInCart(id: medicineModel.id ?? "");
+
+                          if (cartModel != null) {
+                            final int quantity = cartModel.quantity - 1;
+                            final CartModel finalCartModel = CartModel(
+                              name: medicineModel.name ?? "",
+                              id: medicineModel.id ?? "",
+                              price: medicineModel.price ?? "",
+                              quantity: quantity,
+                            );
+                            controller.cartController.removeFromCart(
+                              cartModel: finalCartModel,
+                            );
+                          }
                         },
                       );
                     })

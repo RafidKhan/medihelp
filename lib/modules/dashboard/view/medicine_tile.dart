@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medihelp/components/loader_widget.dart';
 import 'package:medihelp/components/text_component.dart';
 import 'package:medihelp/gen/assets.gen.dart';
 import 'package:medihelp/models/medicine_model.dart';
+import 'package:medihelp/modules/cart/controller/cart_controller.dart';
 import 'package:medihelp/utils/styles.dart';
 
 class MedicineTile extends StatelessWidget {
@@ -38,7 +40,7 @@ class MedicineTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(
               15,
             ),
-            boxShadow: [defaultBoxShadow]),
+            boxShadow: const [defaultBoxShadow]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -77,45 +79,48 @@ class MedicineTile extends StatelessWidget {
                 top: float5,
               ),
             ),
-            medicineModel.isAddedToCart == true
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: removeFromCart,
-                        child: const Icon(
-                          Icons.exposure_minus_1,
-                          size: 15,
+            GetBuilder<CartController>(builder: (cartController) {
+              return cartController.existsInCart(id: medicineModel.id ?? "") !=
+                      null
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: removeFromCart,
+                          child: const Icon(
+                            Icons.exposure_minus_1,
+                            size: 15,
+                          ),
                         ),
-                      ),
-                      TextComponent(
-                        (medicineModel.cartAmount ?? 0).toString(),
+                        TextComponent(
+                          "${cartController.existsInCart(id: medicineModel.id ?? "")!.quantity}",
+                          fontSize: fontSize12,
+                          fontWeight: fontWeight400,
+                          textAlign: TextAlign.center,
+                        ),
+                        InkWell(
+                          onTap: addToCart,
+                          child: const Icon(
+                            Icons.plus_one,
+                            size: 15,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Align(
+                      alignment: Alignment.center,
+                      child: TextComponent(
+                        "add to cart",
                         fontSize: fontSize12,
                         fontWeight: fontWeight400,
                         textAlign: TextAlign.center,
-                      ),
-                      InkWell(
-                        onTap: addToCart,
-                        child: const Icon(
-                          Icons.plus_one,
-                          size: 15,
+                        padding: const EdgeInsets.only(
+                          top: float5,
                         ),
+                        onPressed: addToCart,
                       ),
-                    ],
-                  )
-                : Align(
-                    alignment: Alignment.center,
-                    child: TextComponent(
-                      "add to cart",
-                      fontSize: fontSize12,
-                      fontWeight: fontWeight400,
-                      textAlign: TextAlign.center,
-                      padding: const EdgeInsets.only(
-                        top: float5,
-                      ),
-                      onPressed: addToCart,
-                    ),
-                  ),
+                    );
+            }),
           ],
         ),
       ),

@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:medihelp/models/category_model.dart';
 import 'package:medihelp/models/medicine_model.dart';
+import 'package:medihelp/modules/cart/controller/cart_controller.dart';
 import 'package:medihelp/utils/common_methods.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
 
 class DashboardController extends GetxController {
+  final cartController = Get.put(CartController());
   List<CategoryModel> listCategories = <CategoryModel>[];
   List<MedicineModel> listMedicines = <MedicineModel>[];
   List<String> prices = <String>[];
@@ -84,45 +86,5 @@ class DashboardController extends GetxController {
   selectDealTabIndex({required int index}) {
     selectedDealTabIndex = index;
     update();
-  }
-
-  addRemoveToCart({required bool isAdd, required MedicineModel medicineModel}) {
-    int cartAmount = medicineModel.cartAmount ?? 0;
-    if (isAdd) {
-      medicineModel.isAddedToCart = true;
-      cartAmount = cartAmount + 1;
-      medicineModel.cartAmount = cartAmount;
-    } else {
-      cartAmount = cartAmount - 1;
-      medicineModel.cartAmount = cartAmount;
-      if (cartAmount == 0) {
-        medicineModel.isAddedToCart = false;
-      }
-    }
-
-    update();
-  }
-
-  permanentRemoveFromCart({required MedicineModel medicineModel}) {
-    medicineModel.cartAmount = 0;
-    medicineModel.isAddedToCart = false;
-    update();
-  }
-
-  int calculateTotal() {
-    int total = 0;
-    for (int index = 0; index < listMedicines.length; index++) {
-      final medicineModel = listMedicines[index];
-      final int cartAmount = medicineModel.cartAmount ?? 0;
-      final bool isAddedToCart = medicineModel.isAddedToCart ?? false;
-      if (isAddedToCart && cartAmount > 0) {
-        final priceAmount = multiplyStrings([
-          medicineModel.price.toString(),
-          medicineModel.cartAmount.toString(),
-        ]);
-        total = total + priceAmount;
-      }
-    }
-    return total;
   }
 }

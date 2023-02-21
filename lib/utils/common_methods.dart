@@ -76,13 +76,3 @@ int multiplyStrings(List<String> strings) {
 
   return result;
 }
-
-int addStrings(List<String> strings) {
-  int result = 0;
-  for (int i = 0; i < strings.length; i++) {
-    final convertToInt = int.parse(strings[i]);
-    result = result + convertToInt;
-  }
-
-  return result;
-}
