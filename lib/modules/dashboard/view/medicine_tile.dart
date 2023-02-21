@@ -9,14 +9,18 @@ import 'package:medihelp/utils/styles.dart';
 class MedicineTile extends StatelessWidget {
   MedicineModel medicineModel;
   VoidCallback onTap;
+  VoidCallback addToCart;
+  VoidCallback removeFromCart;
   double height;
 
-  MedicineTile({
-    Key? key,
-    required this.medicineModel,
-    required this.onTap,
-    required this.height,
-  }) : super(key: key);
+  MedicineTile(
+      {Key? key,
+      required this.medicineModel,
+      required this.onTap,
+      required this.height,
+      required this.addToCart,
+      required this.removeFromCart})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,20 +77,45 @@ class MedicineTile extends StatelessWidget {
                 top: float5,
               ),
             ),
-            medicineModel.isAddedToCart == false
-                ? const Align(
+            medicineModel.isAddedToCart == true
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: removeFromCart,
+                        child: const Icon(
+                          Icons.exposure_minus_1,
+                          size: 15,
+                        ),
+                      ),
+                      TextComponent(
+                        (medicineModel.cartAmount ?? 0).toString(),
+                        fontSize: fontSize12,
+                        fontWeight: fontWeight400,
+                        textAlign: TextAlign.center,
+                      ),
+                      InkWell(
+                        onTap: addToCart,
+                        child: const Icon(
+                          Icons.plus_one,
+                          size: 15,
+                        ),
+                      ),
+                    ],
+                  )
+                : Align(
                     alignment: Alignment.center,
                     child: TextComponent(
                       "add to cart",
                       fontSize: fontSize12,
                       fontWeight: fontWeight400,
                       textAlign: TextAlign.center,
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: float5,
                       ),
+                      onPressed: addToCart,
                     ),
-                  )
-                : const SizedBox(),
+                  ),
           ],
         ),
       ),

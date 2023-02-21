@@ -11,9 +11,6 @@ class TabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (controller) {
       return Container(
-        // margin: const EdgeInsets.symmetric(
-        //   vertical: float12,
-        // ),
         decoration: const BoxDecoration(
           color: kWhiteColor,
           boxShadow: [defaultBoxShadow],
@@ -23,12 +20,14 @@ class TabView extends StatelessWidget {
           initialIndex: 0,
           child: TabBar(
             onTap: (index) {
-              controller.selectDealTabIndex(index: index);
-              if (index == 0) {
-                controller.fetchAllMedicines();
-              } else {
-                controller.fetchCategoryMedicines(
-                    categoryID: controller.listCategories[index].id ?? "");
+              if (!controller.loadingMedicines) {
+                controller.selectDealTabIndex(index: index);
+                if (index == 0) {
+                  controller.fetchAllMedicines();
+                } else {
+                  controller.fetchCategoryMedicines(
+                      categoryID: controller.listCategories[index].id ?? "");
+                }
               }
             },
             isScrollable: true,

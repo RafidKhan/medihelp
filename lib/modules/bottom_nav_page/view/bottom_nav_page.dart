@@ -55,7 +55,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         child: Center(
             child: Image.asset(
           asset,
-          color: kPrimaryColor,
+          color: kWhiteColor,
         )));
   }
 
@@ -66,7 +66,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         width: 40,
         child: Image.asset(
           asset,
-          color: Colors.white,
+          color: kWhiteColor,
         ));
   }
 

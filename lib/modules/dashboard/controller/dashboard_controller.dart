@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:medihelp/models/category_model.dart';
@@ -12,6 +9,8 @@ class DashboardController extends GetxController {
   List<CategoryModel> listCategories = <CategoryModel>[];
   List<MedicineModel> listMedicines = <MedicineModel>[];
   int selectedDealTabIndex = 0;
+
+  bool loadingMedicines = false;
 
   Future<void> fetchCategories() async {
     listCategories = [];
@@ -35,7 +34,9 @@ class DashboardController extends GetxController {
   }
 
   Future<void> fetchAllMedicines() async {
-    listMedicines = [];
+    loadingMedicines = true;
+    listMedicines.clear();
+    update();
     try {
       await FirebaseFirestore.instance
           .collection(TableMedicines.collectionName)
@@ -46,14 +47,19 @@ class DashboardController extends GetxController {
         }
         update();
       });
+      loadingMedicines = false;
       update();
     } catch (e) {
+      loadingMedicines = false;
+      update();
       snackBarWidget(title: "Error Loading Medicines", subTitle: "");
     }
   }
 
   Future<void> fetchCategoryMedicines({required String categoryID}) async {
+    loadingMedicines = true;
     listMedicines = [];
+    update();
     try {
       await FirebaseFirestore.instance
           .collection(TableMedicines.collectionName)
@@ -65,14 +71,34 @@ class DashboardController extends GetxController {
         }
         update();
       });
+      loadingMedicines = false;
       update();
     } catch (e) {
+      loadingMedicines = false;
+      update();
       snackBarWidget(title: "Error Loading Medicines", subTitle: "");
     }
   }
 
   selectDealTabIndex({required int index}) {
     selectedDealTabIndex = index;
+    update();
+  }
+
+  addRemoveToCart({required bool isAdd, required MedicineModel medicineModel}) {
+    int cartAmount = medicineModel.cartAmount ?? 0;
+    if (isAdd) {
+      medicineModel.isAddedToCart = true;
+      cartAmount = cartAmount + 1;
+      medicineModel.cartAmount = cartAmount;
+    } else {
+      cartAmount = cartAmount - 1;
+      medicineModel.cartAmount = cartAmount;
+      if (cartAmount == 0) {
+        medicineModel.isAddedToCart = false;
+      }
+    }
+
     update();
   }
 }
