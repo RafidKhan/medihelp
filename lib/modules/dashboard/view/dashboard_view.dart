@@ -54,7 +54,10 @@ class _DashboardViewState extends State<DashboardView> {
           body: SingleChildScrollView(
             physics: bouncingPhysics,
             child: Column(
-              children: const [TabView(), MedicinesView()],
+              children: const [
+                TabView(),
+                MedicinesView(),
+              ],
             ),
           ),
         );

@@ -16,6 +16,10 @@ class $AssetsIconsGen {
   AssetGenImage get iconCart =>
       const AssetGenImage('assets/icons/icon_cart.png');
 
+  /// File path: assets/icons/icon_history.png
+  AssetGenImage get iconHistory =>
+      const AssetGenImage('assets/icons/icon_history.png');
+
   /// File path: assets/icons/icon_home.png
   AssetGenImage get iconHome =>
       const AssetGenImage('assets/icons/icon_home.png');
@@ -28,7 +32,8 @@ class $AssetsIconsGen {
   AssetGenImage get user => const AssetGenImage('assets/icons/user.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [iconCart, iconHome, iconSetting, user];
+  List<AssetGenImage> get values =>
+      [iconCart, iconHistory, iconHome, iconSetting, user];
 }
 
 class $AssetsImagesGen {

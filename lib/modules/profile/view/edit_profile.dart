@@ -25,8 +25,8 @@ class _EditProfileState extends State<EditProfile> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       profileController.nameController.text =
           profileController.myProfileData!.name ?? "";
-      profileController.phoneController.text =
-          profileController.myProfileData!.phoneNumber ?? "";
+      profileController.emailController.text =
+          profileController.myProfileData!.email ?? "";
       profileController.setLocationText(context);
     });
     super.initState();
@@ -56,12 +56,23 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                       TextFieldComponent(
-                        controller: profileController.phoneController,
-                        hintText: "Phone number",
+                        controller: profileController.emailController,
+                        hintText: "Email",
                         margin: const EdgeInsets.symmetric(
                           vertical: float10,
                           horizontal: horizontalMargin,
                         ),
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        validator: (value) {
+                          if (value != null) {
+                            if (!value.isEmail) {
+                              return "Please enter a valid email";
+                            }
+                          }
+                          return null;
+                        },
                       ),
                       TextFieldComponent(
                         controller: profileController.addressController,
@@ -79,6 +90,8 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       CommonButton(
                         btnText: "Update",
+                        isEnabled:
+                            profileController.emailController.text.isEmail,
                         margin: const EdgeInsets.symmetric(
                           horizontal: horizontalMargin,
                           vertical: float10,
@@ -87,8 +100,8 @@ class _EditProfileState extends State<EditProfile> {
                           closeSoftKeyBoard();
                           controller.updateProfile(
                             name: profileController.nameController.text.trim(),
-                            phone:
-                                profileController.phoneController.text.trim(),
+                            email:
+                                profileController.emailController.text.trim(),
                             address:
                                 profileController.addressController.text.trim(),
                           );

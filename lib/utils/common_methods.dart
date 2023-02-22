@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medihelp/components/loader_widget.dart';
+import 'package:medihelp/models/user_model.dart';
 import 'package:medihelp/modules/authentication/login/view/login_view.dart';
 import 'package:medihelp/utils/firebase_constants.dart';
 import 'package:medihelp/utils/shared_preference.dart';
@@ -132,4 +134,20 @@ logoutUser() async {
     () => const LoginView(),
     transition: defaultPageTransition,
   );
+}
+
+Future<UserModel?> getUserData(String userId) async {
+  UserModel? userModel;
+
+  await FirebaseFirestore.instance
+      .collection(TableUsers.collectionName)
+      .doc(userId)
+      .get()
+      .then((value) {
+    if (value.data() != null) {
+      userModel = UserModel.fromJson(value.data()!);
+    }
+  });
+
+  return userModel;
 }

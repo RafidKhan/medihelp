@@ -17,7 +17,7 @@ class ProfileController extends GetxController {
   bool loadingLocation = true;
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController addressController = TextEditingController();
 
   Future<void> getProfileData(context) async {
@@ -50,13 +50,13 @@ class ProfileController extends GetxController {
 
   Future<void> updateProfile({
     required String name,
-    required String phone,
+    required String email,
     required String address,
   }) async {
     if (myProfileData != null) {
       showLoaderAlert();
       myProfileData?.name = name;
-      myProfileData?.phoneNumber = phone;
+      myProfileData?.email = email;
       myProfileData?.address = address;
       myProfileData?.latitude =
           currentPosition == null ? "" : currentPosition!.latitude.toString();
@@ -72,7 +72,6 @@ class ProfileController extends GetxController {
     Get.back();
     update();
     snackBarWidget(title: "Profile has been updated", subTitle: "");
-    log("MY PROFILE: ${myProfileData?.toJson()}");
   }
 
   Position? currentPosition;

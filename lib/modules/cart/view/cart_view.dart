@@ -7,7 +7,6 @@ import 'package:medihelp/components/app_bar_widget.dart';
 import 'package:medihelp/components/default_scaffold.dart';
 import 'package:medihelp/modules/cart/controller/cart_controller.dart';
 import 'package:medihelp/modules/cart/view/cart_tile.dart';
-import 'package:medihelp/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:medihelp/utils/styles.dart';
 
 class CartView extends StatefulWidget {
@@ -47,7 +46,7 @@ class _CartViewState extends State<CartView> {
             return CartTile(
               cartModel: cartModel,
               removePermanent: () {
-                controller.removeFromCart(cartModel: cartModel);
+                controller.permanentRemoveFromCart(cartModel: cartModel);
               },
             );
           },
@@ -76,7 +75,6 @@ class _CartViewState extends State<CartView> {
                           fontSize: fontSize16,
                           fontWeight: fontWeight500,
                           textAlign: TextAlign.start,
-                          onPressed: () {},
                         ),
                       ],
                     ),
@@ -84,9 +82,14 @@ class _CartViewState extends State<CartView> {
                       height: 10,
                     ),
                     Align(
-                        alignment: Alignment.centerRight,
-                        child: AdaptiveButton(
-                            btnText: "Confirm Order", onTap: () {})),
+                      alignment: Alignment.centerRight,
+                      child: AdaptiveButton(
+                        btnText: "Confirm Order",
+                        onTap: () {
+                          controller.confirmOrder();
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

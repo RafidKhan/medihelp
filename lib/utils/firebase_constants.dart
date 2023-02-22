@@ -12,6 +12,12 @@ class TableMedicines {
   static String categoryId = 'category_id';
 }
 
+class TableOrders {
+  static String collectionName = 'orders';
+  static String orderBy = 'order_by';
+
+}
+
 class StoragePath {
   static String AVATAR_SMALL_THUMBNAIL = "250x250";
 
