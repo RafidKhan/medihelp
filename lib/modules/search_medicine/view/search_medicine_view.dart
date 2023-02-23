@@ -71,17 +71,20 @@ class _SearchMedicineViewState extends State<SearchMedicineView> {
                 const SizedBox(
                   height: 20,
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.searchResult.length,
-                  itemBuilder: (context, index) {
-                    final searchMedicineModel = controller.searchResult[index];
-                    return SearchResultTile(
-                      searchMedicineModel: searchMedicineModel,
-                    );
-                  },
-                )
+                controller.searchResult == null
+                    ? const SizedBox()
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.searchResult!.length,
+                        itemBuilder: (context, index) {
+                          final searchMedicineModel =
+                              controller.searchResult![index];
+                          return SearchResultTile(
+                            searchMedicineModel: searchMedicineModel,
+                          );
+                        },
+                      )
               ],
             ),
           ));
