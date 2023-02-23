@@ -33,7 +33,7 @@ class AuthController extends GetxController {
   String verificationIDPhoneSignUp = "";
 
   Future<void> getLoginOtp() async {
-    final phoneNumber = "+88${loginPhoneNumber.value}";
+    final phoneNumber = "${loginPhoneNumber.value}";
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {},
@@ -52,7 +52,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> getSignupOtp() async {
-    final phoneNumber = "+88${regPhoneNumber.value}";
+    final phoneNumber = "${regPhoneNumber.value}";
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {},
