@@ -23,3 +23,10 @@ class StoragePath {
 
   static String USER_PROFILE_IMAGE_PATH = 'profile_image/';
 }
+
+class OrderStatus{
+  static String status_pending = "pending";
+  static String status_in_progress = "in progress";
+  static String status_out_for_delivery = "out for delivery";
+  static String status_delivered = "delivered";
+}

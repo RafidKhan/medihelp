@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medihelp/components/loader_widget.dart';
@@ -40,7 +38,6 @@ class MedicinesView extends StatelessWidget {
                       return MedicineTile(
                         medicineModel: medicineModel,
                         height: itemHeight,
-                        onTap: () {},
                         addToCart: () {
                           final CartModel? cartModel = controller.cartController
                               .existsInCart(id: medicineModel.id ?? "");

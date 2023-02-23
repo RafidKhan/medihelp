@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -22,19 +20,12 @@ class ProfileController extends GetxController {
 
   Future<void> getProfileData(context) async {
     final String myUserId = await SharedPref.read(prefKeyUserId) ?? "";
-    if (myUserId.isNotEmpty) {
-      await FirebaseFirestore.instance
-          .collection(TableUsers.collectionName)
-          .doc(myUserId)
-          .get()
-          .then((value) {
-        if (value.data() != null) {
-          myProfileData = UserModel.fromJson(value.data()!);
-        }
-      });
+    try {
+      myProfileData = await getUserData(myUserId);
+      update();
+    } catch (e) {
+      throw e;
     }
-
-    update();
   }
 
   setLocationText(context) {

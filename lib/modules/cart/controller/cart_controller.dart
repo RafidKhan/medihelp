@@ -111,6 +111,7 @@ class CartController extends GetxController {
               orderId: orderId,
               orderData: cartData,
               totalPrice: calculateTotal(),
+              orderStatus: OrderStatus.status_pending
             );
 
             await FirebaseFirestore.instance

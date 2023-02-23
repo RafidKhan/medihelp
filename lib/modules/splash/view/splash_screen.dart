@@ -28,7 +28,6 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     final isLoggedIn = await SharedPref.read(prefKeyLoginStatus);
-    print("CHECK DATA: ${isLoggedIn}");
     if (isLoggedIn != null) {
       Get.off(() => const BottomNavScreen(), transition: defaultPageTransition);
     } else {

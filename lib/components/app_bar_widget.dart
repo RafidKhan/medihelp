@@ -27,6 +27,7 @@ class AppbarWidget extends StatelessWidget {
         AppBar(
           backgroundColor: kPrimaryColor,
           scrolledUnderElevation: 0,
+          automaticallyImplyLeading: hideBackButton==true?false:true,
           centerTitle: centerTitle,
           leading: hideBackButton == true
               ? null
